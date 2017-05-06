@@ -1,4 +1,12 @@
+#include "HttpClient.h"
+
 class SonosClient {
+private:
+  HttpClient http;
+  String host;
+  int portnumber;
+  String roomname;
+  int volume;
 
 public:
   SonosClient(String ip, int port, String room, int volumelevel);

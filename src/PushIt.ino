@@ -2,7 +2,7 @@
 #include "SonosClient.h"
 
 Flasher heartbeat(D7, 100, 1900);  //flash onboard led
-SonosClient sonosclient("192.168.0.99", 5005, "office", 20);
+SonosClient sonosclient("192.168.0.99", 5005, "office", 10);
 
 int stereo = D0;
 int button = D1;

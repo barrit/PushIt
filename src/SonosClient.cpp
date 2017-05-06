@@ -2,18 +2,6 @@
 #include "SonosClient.h"
 #include "HttpClient.h"
 
-HttpClient http;
-
-String host;
-int portnumber;
-String roomname;
-int volume;
-
-http_header_t headers[] = {
-  { "Accept" , "*/*"},
-  { NULL, NULL } // NOTE: Always terminate headers will NULL
-};
-
 SonosClient::SonosClient(String ip, int port, String room, int volumelevel) {
   host = ip;
   portnumber = port;
@@ -28,6 +16,10 @@ void SonosClient::SetVolume(int volumelevel) {
 void SonosClient::Talk(String text, String languagecode) {
   http_request_t request;
   http_response_t response;
+  http_header_t headers[] = {
+    { "Accept" , "*/*"},
+    { NULL, NULL } // NOTE: Always terminate headers will NULL
+  };
 
   request.hostname = host;
   request.port = portnumber;
