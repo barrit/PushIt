@@ -3,14 +3,15 @@
 class SonosClient {
 private:
   HttpClient http;
-  String host;
+  char *host;
   int portnumber;
-  String roomname;
+  char *roomname;
   int volume;
 
 public:
-  SonosClient(String ip, int port, String room, int volumelevel);
+  SonosClient(char *ip, int port, char *room, int volumelevel);
   void PlayList(String listname);
   void SetVolume(int level);
   void Talk(String text, String languagecode);
+  void Playlist(String playlist);
 };
