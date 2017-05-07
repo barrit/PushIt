@@ -7,15 +7,21 @@ SonosClient sonosclient("192.168.0.99", 5005, "office", 10);
 int stereo = D0;
 int button1 = D1;
 int button2 = D2;
+int volup = D3;
+int voldown = D4;
 
-String playlist;
+String favoritename;
+String saywhat = "Hello";
 
 void setup() {
   pinMode(stereo, INPUT_PULLUP);
   pinMode(button1, INPUT_PULLUP);
   pinMode(button2, INPUT_PULLUP);
+  pinMode(volup, INPUT_PULLUP);
+  pinMode(voldown, INPUT_PULLUP);
 
-  Particle.function("setplaylist", setPlaylistName);
+  Particle.function("setfavorite", setFavoriteName);
+  Particle.function("saywhat", setSayWhat);
 }
 
 void loop() {
@@ -25,15 +31,30 @@ void loop() {
   }
 
   if (digitalRead(button1) == LOW) {
-    sonosclient.Talk("Hello world", "en-us");
+    sonosclient.Talk(saywhat, "en-us");
   }
 
   if (digitalRead(button2) == LOW) {
-    sonosclient.Playlist(playlist);
+    sonosclient.PlayFavorite(favoritename);
+  }
+
+  if (digitalRead(volup) == LOW) {
+    sonosclient.VolumeUp(2);
+  }
+
+  if (digitalRead(voldown) == LOW) {
+    sonosclient.VolumeDown(2);
   }
 }
 
-int setPlaylistName(String playlistname)
+int setFavoriteName(String favorite)
 {
-  playlist = playlistname;
+  favoritename = favorite;
+  return 1;
+}
+
+int setSayWhat(String what)
+{
+  saywhat = what;
+  return 1;
 }

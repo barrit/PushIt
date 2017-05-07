@@ -7,11 +7,15 @@ private:
   int portnumber;
   char *roomname;
   int volume;
+  void Volume(String diff);
+  void Action(String room, String action, String parameter);
 
 public:
   SonosClient(char *ip, int port, char *room, int volumelevel);
-  void PlayList(String listname);
+  void Favorite(String favorite);
   void SetVolume(int level);
   void Talk(String text, String languagecode);
-  void Playlist(String playlist);
+  void PlayFavorite(String favorite);
+  void VolumeUp(short diff);
+  void VolumeDown(short diff);
 };

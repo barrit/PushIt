@@ -9,36 +9,40 @@ SonosClient::SonosClient(char *ip, int port, char *room, int volumelevel) {
   volume = volumelevel;
 }
 
+void SonosClient::Action(String room, String action, String parameter) {
+  http_request_t request;
+  http_response_t response;
+  http_header_t headers[] = {
+    { "Accept" , "*/*"},
+    { NULL, NULL } // NOTE: Always terminate headers will NULL
+  };
+
+  request.hostname = String(host);
+  request.port = portnumber;
+  request.path = String("/" + room + "/" + action + "/" + parameter);
+  Particle.publish("sonosaction", request.path);
+  http.get(request, response, headers);
+}
+
 void SonosClient::SetVolume(int volumelevel) {
   volume = volumelevel;
+  Action(roomname, "volume", String(volume));
 }
 
 void SonosClient::Talk(String text, String languagecode) {
-  http_request_t request;
-  http_response_t response;
-  http_header_t headers[] = {
-    { "Accept" , "*/*"},
-    { NULL, NULL } // NOTE: Always terminate headers will NULL
-  };
-
-  request.hostname = String(host);
-  request.port = portnumber;
-  request.path = String("/" + String(roomname) + "/say/"+ text.replace(" ", "%20") + "/" + languagecode + "/" + volume);
-  Particle.publish("talk", request.path);
-  http.get(request, response, headers);
+  Action(roomname, "say", text.replace(" ", "%20") + "/" + languagecode + "/" + volume);
 }
 
-void SonosClient::Playlist(String playlist) {
-  http_request_t request;
-  http_response_t response;
-  http_header_t headers[] = {
-    { "Accept" , "*/*"},
-    { NULL, NULL } // NOTE: Always terminate headers will NULL
-  };
+void SonosClient::PlayFavorite(String favorite) {
+  Action(roomname, "favorite", favorite.replace(" ", "%20"));
+}
 
-  request.hostname = String(host);
-  request.port = portnumber;
-  request.path = String("/" + String(roomname) + "/favorite/" + playlist);
-  Particle.publish("playlist", request.path);
-  http.get(request, response, headers);
+void SonosClient::VolumeUp(short diff) {
+  volume += diff;
+  Action(roomname, "volume", String("+" + String(diff)));
+}
+
+void SonosClient::VolumeDown(short diff) {
+  volume -= diff;
+  Action(roomname, "volume", String("-" + String(diff)));
 }
