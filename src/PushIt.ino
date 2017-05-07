@@ -10,9 +10,6 @@ int button2 = D2;
 int volup = D3;
 int voldown = D4;
 
-String favoritename;
-String saywhat = "Hello";
-
 void setup() {
   pinMode(stereo, INPUT_PULLUP);
   pinMode(button1, INPUT_PULLUP);
@@ -31,11 +28,11 @@ void loop() {
   }
 
   if (digitalRead(button1) == LOW) {
-    sonosclient.Talk(saywhat, "en-us");
+    sonosclient.Talk();
   }
 
   if (digitalRead(button2) == LOW) {
-    sonosclient.PlayFavorite(favoritename);
+    sonosclient.PlayFavorite();
   }
 
   if (digitalRead(volup) == LOW) {
@@ -49,12 +46,12 @@ void loop() {
 
 int setFavoriteName(String favorite)
 {
-  favoritename = favorite;
+  sonosclient.setFavorite(favorite);
   return 1;
 }
 
 int setSayWhat(String what)
 {
-  saywhat = what;
+  sonosclient.setSayWhat(what);
   return 1;
 }

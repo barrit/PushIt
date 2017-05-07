@@ -29,11 +29,11 @@ void SonosClient::SetVolume(int volumelevel) {
   Action(roomname, "volume", String(volume));
 }
 
-void SonosClient::Talk(String text, String languagecode) {
-  Action(roomname, "say", text.replace(" ", "%20") + "/" + languagecode + "/" + volume);
+void SonosClient::Talk() {
+  Action(roomname, "say", saywhat.replace(" ", "%20") + "/" + language + "/" + volume);
 }
 
-void SonosClient::PlayFavorite(String favorite) {
+void SonosClient::PlayFavorite() {
   Action(roomname, "favorite", favorite.replace(" ", "%20"));
 }
 
